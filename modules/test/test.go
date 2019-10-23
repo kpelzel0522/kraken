@@ -195,6 +195,8 @@ func (t *Test) setTest(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	t.api.Logf(lib.LLDEBUG, "got this from request: %+v", rt)
+
 	w.WriteHeader(http.StatusOK)
 	t.fakeDiscover(rt.ID, rt.State)
 }
