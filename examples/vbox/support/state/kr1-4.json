@@ -30,6 +30,10 @@
       "@type": "type.googleapis.com/proto.VBox",
       "apiServer": "vbm",
       "name": "kr1"
+    },
+    {
+      "@type": "type.googleapis.com/proto.Test",
+      "state": 0
     }
   ]
 },
@@ -62,6 +66,10 @@
       "@type": "type.googleapis.com/proto.VBox",
       "apiServer": "vbm",
       "name": "kr2"
+    },
+    {
+      "@type": "type.googleapis.com/proto.Test",
+      "state": 0
     }
   ]
 },
@@ -94,6 +102,10 @@
       "@type": "type.googleapis.com/proto.VBox",
       "apiServer": "vbm",
       "name": "kr3"
+    },
+    {
+      "@type": "type.googleapis.com/proto.Test",
+      "state": 0
     }
   ]
 },
@@ -126,6 +138,10 @@
       "@type": "type.googleapis.com/proto.VBox",
       "apiServer": "vbm",
       "name": "kr4"
+    },
+    {
+      "@type": "type.googleapis.com/proto.Test",
+      "state": 0
     }
   ]
 }
