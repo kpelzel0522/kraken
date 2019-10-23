@@ -184,6 +184,7 @@ func (t *Test) srvStop() {
 }
 
 func (t *Test) setTest(w http.ResponseWriter, req *http.Request) {
+	t.api.Logf(lib.LLDEBUG, "Setting test thing")
 	defer req.Body.Close()
 	decoder := json.NewDecoder(req.Body)
 	var rt reqTest
