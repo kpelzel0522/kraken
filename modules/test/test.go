@@ -14,12 +14,17 @@
 package test
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"reflect"
 	"time"
 
 	"github.com/golang/protobuf/ptypes"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/hpc/kraken/core"
@@ -65,6 +70,13 @@ type Test struct {
 	dchan chan<- lib.Event
 
 	pollTicker *time.Ticker
+	router     *mux.Router
+	srv        *http.Server
+}
+
+type reqTest struct {
+	ID    string `json:"id,omitempty"`
+	State string `json:"state,omitempty"`
 }
 
 // Name returns the FQDN of the module
@@ -74,6 +86,8 @@ func (*Test) Name() string { return "github.com/hpc/kraken/modules/test" }
 func (*Test) NewConfig() proto.Message {
 	r := &pb.TestConfig{
 		IpUrl: "type.googleapis.com/proto.IPv4OverEthernet/Ifaces/0/Ip/Ip",
+		Addr:  "127.0.0.1",
+		Port:  3143,
 		Servers: map[string]*pb.TestServer{
 			"testServer": {
 				Name: "testServer",
@@ -120,59 +134,113 @@ func (t *Test) Entry() {
 	t.dchan <- ev
 
 	// setup a ticker for polling discovery
-	dur, _ := time.ParseDuration("10s")
-	t.pollTicker = time.NewTicker(dur)
+	// dur, _ := time.ParseDuration("10s")
+	// t.pollTicker = time.NewTicker(dur)
 
-	// main loop
+	// // main loop
+	// for {
+	// 	select {
+	// 	case <-t.pollTicker.C:
+	// 		go t.discoverAll()
+	// 		break
+	// 	}
+	// }
+
+	t.setupRouter()
 	for {
-		select {
-		case <-t.pollTicker.C:
-			go t.discoverAll()
-			break
-		}
+		t.startServer()
 	}
+
 }
 
-// discoverAll is used to do polling discovery of power state
-// Note: this is probably not extremely efficient for large systems
-func (t *Test) discoverAll() {
-	t.api.Log(lib.LLDEBUG, "polling for node state")
-	ns, e := t.api.QueryReadAll()
-	if e != nil {
-		t.api.Logf(lib.LLERROR, "polling node query failed: %v", e)
+func (t *Test) setupRouter() {
+	t.router = mux.NewRouter()
+	t.router.HandleFunc("/set", t.setTest).Methods("POST")
+}
+
+func (t *Test) startServer() {
+	t.srv = &http.Server{
+		Handler: handlers.CORS(
+			handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+			handlers.AllowedOrigins([]string{"*"}),
+			handlers.AllowedMethods([]string{"PUT", "GET", "POST", "DELETE"}),
+		)(t.router),
+		Addr:         fmt.Sprintf("%s:%d", t.cfg.Addr, t.cfg.Port),
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	t.api.Logf(lib.LLINFO, "restapi is listening on: %s\n", t.srv.Addr)
+	if e := t.srv.ListenAndServe(); e != nil {
+		if e != http.ErrServerClosed {
+			t.api.Logf(lib.LLNOTICE, "http stopped: %v\n", e)
+		}
+	}
+	t.api.Log(lib.LLNOTICE, "restapi listener stopped")
+}
+
+func (t *Test) srvStop() {
+	t.api.Log(lib.LLDEBUG, "restapi is shutting down listener")
+	t.srv.Shutdown(context.Background())
+}
+
+func (t *Test) setTest(w http.ResponseWriter, req *http.Request) {
+	defer req.Body.Close()
+	decoder := json.NewDecoder(req.Body)
+	var rt reqTest
+	err := decoder.Decode(&t)
+	if err != nil {
+		t.api.Logf(lib.LLERROR, "Error decoding request")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	ipmap := make(map[string]lib.NodeID)
 
-	// get ip addresses for nodes
-	for _, n := range ns {
-		v, e := n.GetValue(t.cfg.GetIpUrl())
-		if e != nil {
-			t.api.Logf(lib.LLERROR, "problem getting ip address of nodes")
-		}
-		ip := v.String()
-		ipmap[ip] = n.ID()
-	}
-
-	t.api.Logf(lib.LLDEBUG, "got ip addresses: %v", ipmap)
-	for _, n := range ns {
-		t.fakeDiscover(n)
-	}
+	w.WriteHeader(http.StatusOK)
+	t.fakeDiscover(rt.ID, rt.State)
 }
 
-func (t *Test) fakeDiscover(node lib.Node) {
+// // discoverAll is used to do polling discovery of power state
+// // Note: this is probably not extremely efficient for large systems
+// func (t *Test) discoverAll() {
+// 	t.api.Log(lib.LLDEBUG, "polling for node state")
+// 	ns, e := t.api.QueryReadAll()
+// 	if e != nil {
+// 		t.api.Logf(lib.LLERROR, "polling node query failed: %v", e)
+// 		return
+// 	}
+// 	ipmap := make(map[string]lib.NodeID)
 
-	var vid testpb.Test_Test
-	vid = testpb.Test_HIGH
+// 	// get ip addresses for nodes
+// 	for _, n := range ns {
+// 		v, e := n.GetValue(t.cfg.GetIpUrl())
+// 		if e != nil {
+// 			t.api.Logf(lib.LLERROR, "problem getting ip address of nodes")
+// 		}
+// 		ip := v.String()
+// 		ipmap[ip] = n.ID()
+// 	}
 
-	url := lib.NodeURLJoin(node.ID().String(), "type.googleapis.com/proto.Test/State")
+// 	t.api.Logf(lib.LLDEBUG, "got ip addresses: %v", ipmap)
+// 	for _, n := range ns {
+// 		t.fakeDiscover(n)
+// 	}
+// }
+
+func (t *Test) fakeDiscover(id string, state string) {
+
+	vid := testpb.Test_Test_value[state]
+	n, e := t.api.QueryRead(id)
+	if e != nil {
+		t.api.Logf(lib.LLERROR, "error getting node from id")
+	}
+
+	url := lib.NodeURLJoin(n.ID().String(), "type.googleapis.com/proto.Test/State")
 	v := core.NewEvent(
 		lib.Event_DISCOVERY,
 		url,
 		&core.DiscoveryEvent{
 			Module:  t.Name(),
 			URL:     url,
-			ValueID: vid.String(),
+			ValueID: testpb.Test_Test_name[vid],
 		},
 	)
 	t.dchan <- v

@@ -13,6 +13,8 @@ package proto;
 message TestConfig {
     map<string, TestServer> servers = 1;
     string ip_url = 2;
+    string addr = 3;
+    int32 port = 4;
 }
 
 message TestServer {

@@ -33,7 +33,12 @@
         {
           "id": "test",
           "module": "github.com/hpc/kraken/modules/test",
-          "state": "RUN"
+          "state": "RUN",
+          "config": {
+            "@type": "type.googleapis.com/proto.TestConfig",
+            "addr": "0.0.0.0",
+            "port": 3143
+          }
         },
         {
           "id": "pxe",
