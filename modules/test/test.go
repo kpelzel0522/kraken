@@ -17,6 +17,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"reflect"
@@ -186,14 +187,22 @@ func (t *Test) srvStop() {
 func (t *Test) setTest(w http.ResponseWriter, req *http.Request) {
 	t.api.Logf(lib.LLDEBUG, "Setting test thing")
 	defer req.Body.Close()
-	decoder := json.NewDecoder(req.Body)
-	var rt reqTest
-	err := decoder.Decode(&t)
-	if err != nil {
-		t.api.Logf(lib.LLERROR, "Error decoding request")
-		w.WriteHeader(http.StatusBadRequest)
+	body, e := ioutil.ReadAll(req.Body)
+	if e != nil {
+		t.api.Logf(lib.LLERROR, "http GET failed to read body: %v", e)
 		return
 	}
+	rt := reqTest{}
+	e = json.Unmarshal(body, &rt)
+
+	// decoder := json.NewDecoder(req.Body)
+	// var rt reqTest
+	// err := decoder.Decode(&t)
+	// if err != nil {
+	// 	t.api.Logf(lib.LLERROR, "Error decoding request")
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	return
+	// }
 
 	t.api.Logf(lib.LLDEBUG, "got this from request: %+v", rt)
 
