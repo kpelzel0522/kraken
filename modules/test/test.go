@@ -39,31 +39,6 @@ var _ lib.ModuleWithConfig = (*Test)(nil)
 var _ lib.ModuleWithDiscovery = (*Test)(nil)
 var _ lib.ModuleSelfService = (*Test)(nil)
 
-// type pxmut struct {
-// 	f       pxepb.PXE_State
-// 	t       pxepb.PXE_State
-// 	reqs    map[string]reflect.Value
-// 	timeout string
-// }
-
-// var muts = map[string]pxmut{
-// 	"NONEtoWAIT": {
-// 		f:       pxepb.PXE_NONE,
-// 		t:       pxepb.PXE_WAIT,
-// 		reqs:    reqs,
-// 		timeout: "10s",
-// 	},
-// 	"INITtoCOMP": {
-// 		f: pxepb.PXE_INIT,
-// 		t: pxepb.PXE_COMP,
-// 		reqs: map[string]reflect.Value{
-// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-// 		},
-// 		timeout: "180s",
-// 	},
-// }
-
 // modify these if you want different requires for mutations
 var reqs = map[string]reflect.Value{
 	"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
@@ -83,10 +58,6 @@ const (
 	queryByMAC nodeQueryBy = "MAC"
 )
 
-//////////////////
-// PXE Object /
-////////////////
-
 // PXE provides PXE-boot capabilities
 type Test struct {
 	api   lib.APIClient
@@ -94,20 +65,6 @@ type Test struct {
 	dchan chan<- lib.Event
 
 	pollTicker *time.Ticker
-
-	// selfIP  net.IP
-	// selfNet net.IP
-
-	// options   layers.DHCPOptions
-	// leaseTime time.Duration
-
-	// iface     *net.Interface
-	// rawHandle *raw.Conn
-
-	// // for maintaining our list of currently booting nodes
-
-	// mutex  sync.RWMutex
-	// nodeBy map[nodeQueryBy]map[string]lib.Node
 }
 
 // Name returns the FQDN of the module
