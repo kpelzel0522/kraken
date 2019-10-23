@@ -208,7 +208,7 @@ func (t *Test) fakeDiscover(node lib.Node) {
 	var vid testpb.Test_Test
 	vid = testpb.Test_HIGH
 
-	url := lib.NodeURLJoin(node.ID().String(), "/type.googleapis.com/proto.Test/State")
+	url := lib.NodeURLJoin(node.ID().String(), "type.googleapis.com/proto.Test/State")
 	v := core.NewEvent(
 		lib.Event_DISCOVERY,
 		url,
