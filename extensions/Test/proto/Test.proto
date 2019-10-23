@@ -1,0 +1,21 @@
+/* VBox.proto: describes VirtualBox specific state objects
+ *
+ * Author: J. Lowell Wofford <lowell@lanl.gov>
+ *
+ * This software is open source software available under the BSD-3 license.
+ * Copyright (c) 2018, Triad National Security, LLC
+ * See LICENSE file for details.
+ */
+
+ syntax = "proto3";
+ package proto;
+
+message Test {
+    enum Test {
+        NONE = 0; 
+        LOW = 1;    // Low
+        MED = 2;    // Medium
+        HIGH = 3;   // High
+    }
+    Test state = 1;
+}
