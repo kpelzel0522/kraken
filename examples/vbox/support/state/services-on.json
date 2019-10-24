@@ -41,6 +41,11 @@
           }
         },
         {
+          "id": "testmodule",
+          "module": "github.com/hpc/kraken/modules/testmutate",
+          "state": "RUN"
+        },
+        {
           "id": "pxe",
           "module": "github.com/hpc/kraken/modules/pxe",
           "state": "RUN"
