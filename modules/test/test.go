@@ -45,25 +45,6 @@ var _ lib.ModuleWithConfig = (*Test)(nil)
 var _ lib.ModuleWithDiscovery = (*Test)(nil)
 var _ lib.ModuleSelfService = (*Test)(nil)
 
-// modify these if you want different requires for mutations
-var reqs = map[string]reflect.Value{
-	"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-}
-
-// modify this if you want excludes
-var excs = map[string]reflect.Value{}
-
-/* we use channels and a node manager rather than locking
-   to make our node store safe.  This is a simpple query
-   language for that service */
-
-type nodeQueryBy string
-
-const (
-	queryByIP  nodeQueryBy = "IP"
-	queryByMAC nodeQueryBy = "MAC"
-)
-
 // PXE provides PXE-boot capabilities
 type Test struct {
 	api   lib.APIClient
@@ -194,48 +175,11 @@ func (t *Test) setTest(w http.ResponseWriter, req *http.Request) {
 	}
 	rt := reqTest{}
 	e = json.Unmarshal(body, &rt)
-
-	// decoder := json.NewDecoder(req.Body)
-	// var rt reqTest
-	// err := decoder.Decode(&t)
-	// if err != nil {
-	// 	t.api.Logf(lib.LLERROR, "Error decoding request")
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	return
-	// }
-
 	t.api.Logf(lib.LLDEBUG, "got this from request: %+v", rt)
 
 	w.WriteHeader(http.StatusOK)
 	t.fakeDiscover(rt.ID, rt.State)
 }
-
-// // discoverAll is used to do polling discovery of power state
-// // Note: this is probably not extremely efficient for large systems
-// func (t *Test) discoverAll() {
-// 	t.api.Log(lib.LLDEBUG, "polling for node state")
-// 	ns, e := t.api.QueryReadAll()
-// 	if e != nil {
-// 		t.api.Logf(lib.LLERROR, "polling node query failed: %v", e)
-// 		return
-// 	}
-// 	ipmap := make(map[string]lib.NodeID)
-
-// 	// get ip addresses for nodes
-// 	for _, n := range ns {
-// 		v, e := n.GetValue(t.cfg.GetIpUrl())
-// 		if e != nil {
-// 			t.api.Logf(lib.LLERROR, "problem getting ip address of nodes")
-// 		}
-// 		ip := v.String()
-// 		ipmap[ip] = n.ID()
-// 	}
-
-// 	t.api.Logf(lib.LLDEBUG, "got ip addresses: %v", ipmap)
-// 	for _, n := range ns {
-// 		t.fakeDiscover(n)
-// 	}
-// }
 
 func (t *Test) fakeDiscover(id string, state string) {
 
