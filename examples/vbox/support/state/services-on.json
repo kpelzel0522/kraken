@@ -41,7 +41,7 @@
           }
         },
         {
-          "id": "testmodule",
+          "id": "testmutate",
           "module": "github.com/hpc/kraken/modules/testmutate",
           "state": "RUN"
         },
