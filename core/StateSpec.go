@@ -36,7 +36,7 @@ func NewStateSpec(req map[string]reflect.Value, exc map[string]reflect.Value) *S
 	s := &StateSpec{}
 	s.req = req
 	s.exc = exc
-	fmt.Printf("creating new state spec. reqs: %+v", s.req)
+	fmt.Printf("creating new state spec. reqs: %+v\n", s.req)
 	return s
 }
 
