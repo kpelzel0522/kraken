@@ -123,50 +123,30 @@ var muts = map[string]mut{
 // 	},
 // }
 
-// var tsmuts = map[string]tsmut{
-// 	"NONEtoLOW": {
-// 		f: tspb.TestScaling_NONE,
-// 		t: tspb.TestScaling_LOW,
-// 		reqs: map[string]reflect.Value{
-// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-// 			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
-// 		},
-// 		timeout: "60s",
-// 	},
-// 	"NONEtoHIGH": {
-// 		f: tspb.TestScaling_NONE,
-// 		t: tspb.TestScaling_HIGH,
-// 		reqs: map[string]reflect.Value{
-// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-// 			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
-// 		},
-// 		timeout: "60s",
-// 	},
-// 	"HIGHtoLOW": {
-// 		f: tspb.TestScaling_HIGH,
-// 		t: tspb.TestScaling_LOW,
-// 		reqs: map[string]reflect.Value{
-// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-// 			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
-// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_HIGH),
-// 		},
-// 		timeout: "60s",
-// 	},
-// 	"LOWtoHIGH": {
-// 		f: tspb.TestScaling_LOW,
-// 		t: tspb.TestScaling_HIGH,
-// 		reqs: map[string]reflect.Value{
-// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-// 			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
-// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_LOW),
-// 		},
-// 		timeout: "60s",
-// 	},
-// }
+var tsmuts = map[string]tsmut{
+	"HIGHtoLOW": {
+		f: tspb.TestScaling_HIGH,
+		t: tspb.TestScaling_LOW,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
+			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_HIGH),
+		},
+		timeout: "60s",
+	},
+	"LOWtoHIGH": {
+		f: tspb.TestScaling_LOW,
+		t: tspb.TestScaling_HIGH,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
+			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_LOW),
+		},
+		timeout: "60s",
+	},
+}
 
 var excs = map[string]reflect.Value{}
 
