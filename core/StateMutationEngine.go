@@ -212,11 +212,11 @@ func (sme *StateMutationEngine) DumpGraph() {
 		 Mutation: %p
 		  mut: %s
 		  req: %s
+		  reqs2: %+v
 		  exc: %s
 		 From: %p
 		 To: %p
-		`, m, m.mut, sme.dumpMutMap(m.mut.Mutates()), sme.dumpMapOfValues(m.mut.Requires()), sme.dumpMapOfValues(m.mut.Excludes()), m.from, m.to)
-		fmt.Printf(`requires: %+v`, m.mut.Requires())
+		`, m, m.mut, sme.dumpMutMap(m.mut.Mutates()), sme.dumpMapOfValues(m.mut.Requires()), m.mut.Requires(), sme.dumpMapOfValues(m.mut.Excludes()), m.from, m.to)
 	}
 	fmt.Printf("\n=== END: Edge list ===\n")
 	sme.graphMutex.RUnlock()
