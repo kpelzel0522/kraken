@@ -20,7 +20,7 @@ message PXE {
         NONE = 0; 
         WAIT = 1; // PXE information passed to module
         INIT = 2; // DHCP handshake complete
-        COMP = 3; // PXE process complete
+        // COMP = 3; // PXE process complete
     }
     State state = 2;
 }
