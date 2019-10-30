@@ -357,22 +357,22 @@ func init() {
 	discovers := make(map[string]map[string]reflect.Value)
 	dpxe := make(map[string]reflect.Value)
 
-	for m := range muts {
-		dur, _ := time.ParseDuration(muts[m].timeout)
-		mutations[m] = core.NewStateMutation(
+	for name, m := range muts {
+		dur, _ := time.ParseDuration(m.timeout)
+		mutations[name] = core.NewStateMutation(
 			map[string][2]reflect.Value{
 				PXEStateURL: {
-					reflect.ValueOf(muts[m].f),
-					reflect.ValueOf(muts[m].t),
+					reflect.ValueOf(m.f),
+					reflect.ValueOf(m.t),
 				},
 			},
-			reqs,
+			m.reqs,
 			excs,
 			lib.StateMutationContext_CHILD,
 			dur,
 			[3]string{module.Name(), "/PhysState", "PHYS_HANG"},
 		)
-		dpxe[pxepb.PXE_State_name[int32(muts[m].t)]] = reflect.ValueOf(muts[m].t)
+		dpxe[pxepb.PXE_State_name[int32(m.t)]] = reflect.ValueOf(m.t)
 	}
 
 	mutations["WAITtoINIT"] = core.NewStateMutation(
