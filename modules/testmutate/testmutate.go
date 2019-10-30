@@ -58,9 +58,7 @@ var muts = map[string]tmut{
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-		},
-		excs: map[string]reflect.Value{
-			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
+			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
 		},
 		timeout: "60s",
 	},
@@ -174,7 +172,7 @@ func init() {
 				},
 			},
 			muts[m].reqs,
-			muts[m].excs,
+			excs,
 			lib.StateMutationContext_CHILD,
 			dur,
 			[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},

@@ -220,7 +220,6 @@ func init() {
 
 	dtest[testpb.Test_UNKNOWN.String()] = reflect.ValueOf(testpb.Test_UNKNOWN)
 	dtest[testpb.Test_LOW.String()] = reflect.ValueOf(testpb.Test_LOW)
-	dtest[testpb.Test_MED.String()] = reflect.ValueOf(testpb.Test_MED)
 	dtest[testpb.Test_HIGH.String()] = reflect.ValueOf(testpb.Test_HIGH)
 
 	discovers["type.googleapis.com/proto.Test/State"] = dtest

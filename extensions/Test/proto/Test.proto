@@ -14,7 +14,6 @@ message Test {
     enum Test {
         UNKNOWN = 0; 
         LOW = 1;    // Low
-        MED = 2;    // Medium
         HIGH = 3;   // High
     }
     Test state = 1;
