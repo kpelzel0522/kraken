@@ -47,6 +47,7 @@ type tmut struct {
 	f       tspb.TestScaling_Scaling
 	t       tspb.TestScaling_Scaling
 	reqs    map[string]reflect.Value
+	excs    map[string]reflect.Value
 	timeout string
 }
 
@@ -58,6 +59,9 @@ var muts = map[string]tmut{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
 		},
+		excs: map[string]reflect.Value{
+			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
+		},
 		timeout: "60s",
 	},
 	"NONEtoLOW": {
@@ -66,6 +70,7 @@ var muts = map[string]tmut{
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
 		},
 		timeout: "60s",
 	},
