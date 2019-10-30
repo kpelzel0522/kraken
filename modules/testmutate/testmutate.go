@@ -188,15 +188,38 @@ func (t *TestMutate) Entry() {
 	// main loop
 	for {
 		select {
-		case m := <-t.mchan: // mutation request
+		case e := <-t.mchan:
+			if e.Type() != lib.Event_STATE_MUTATION {
+				t.api.Log(lib.LLERROR, "got unexpected non-mutation event")
+				break
+			}
+			m := e.Data().(*core.MutationEvent)
 			go t.handleMutation(m)
 			break
 		}
 	}
 }
 
-func (t *TestMutate) handleMutation(m lib.Event) {
-	t.api.Logf(lib.LLDEBUG, "Got muationed: %+v", m)
+func (t *TestMutate) handleMutation(m *core.MutationEvent) {
+	t.api.Logf(lib.LLDEBUG, "Got mutation: %+v", m)
+	switch m.Type {
+	case core.MutationEvent_MUTATE:
+		switch m.Mutation[1] {
+		case "NONEtoHIGH": // starting a new mutation, register the node
+			t.api.Logf(lib.LLDEBUG, "Got none -> high. sending high: %+v", m)
+			url := lib.NodeURLJoin(m.NodeCfg.ID().String(), ScalingStateURL)
+			ev := core.NewEvent(
+				lib.Event_DISCOVERY,
+				url,
+				&core.DiscoveryEvent{
+					Module:  t.Name(),
+					URL:     url,
+					ValueID: tspb.TestScaling_HIGH.String(),
+				},
+			)
+			t.dchan <- ev
+		}
+	}
 }
 
 // Init is used to intialize an executable module prior to entrypoint
