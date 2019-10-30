@@ -264,7 +264,6 @@ func mutationEdgesToProto(edges []*mutationEdge) (r pb.MutationEdgeList) {
 
 		r.MutationEdgeList = append(r.MutationEdgeList, &nme)
 	}
-	fmt.Printf("sending %v edges to query\n", len(r.MutationEdgeList))
 	return
 }
 
