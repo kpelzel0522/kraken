@@ -52,12 +52,31 @@ type tsmut struct {
 }
 
 type tmut struct {
+	// tf      tpb.Test_Test
+	// tt      tpb.Test_Test
+	// tsf     tspb.TestScaling_Scaling
+	// tst     tspb.TestScaling_Scaling
 	f       tpb.Test_Test
 	t       tpb.Test_Test
 	reqs    map[string]reflect.Value
 	excs    map[string]reflect.Value
 	timeout string
 }
+
+// var muts = map[string]tmut{
+// 	"UNKNOWNtoLOW": {
+// 		tf:  tpb.Test_UNKNOWN,
+// 		tt:  tpb.Test_LOW,
+// 		tsf: tspb.TestScaling_NONE,
+// 		tst: tspb.TestScaling_HIGH,
+// 		reqs: map[string]reflect.Value{
+// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+// 		},
+// 		timeout: "60s",
+// 	},
+// }
 
 var tmuts = map[string]tmut{
 	"T_UNKNOWNtoT_LOW": {
@@ -214,7 +233,7 @@ func init() {
 		dur, _ := time.ParseDuration(m.timeout)
 		mutations[name] = core.NewStateMutation(
 			map[string][2]reflect.Value{
-				ScalingStateURL: {
+				TempStateURL: {
 					reflect.ValueOf(m.f),
 					reflect.ValueOf(m.t),
 				},
