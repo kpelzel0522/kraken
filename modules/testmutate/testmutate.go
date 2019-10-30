@@ -218,6 +218,19 @@ func (t *TestMutate) handleMutation(m *core.MutationEvent) {
 				},
 			)
 			t.dchan <- ev
+		case "NONEtoLOW": // starting a new mutation, register the node
+			t.api.Logf(lib.LLDEBUG, "Got none -> low. sending low: %+v", m)
+			url := lib.NodeURLJoin(m.NodeCfg.ID().String(), ScalingStateURL)
+			ev := core.NewEvent(
+				lib.Event_DISCOVERY,
+				url,
+				&core.DiscoveryEvent{
+					Module:  t.Name(),
+					URL:     url,
+					ValueID: tspb.TestScaling_LOW.String(),
+				},
+			)
+			t.dchan <- ev
 		}
 	}
 }
