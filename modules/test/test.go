@@ -218,7 +218,7 @@ func init() {
 	discovers := make(map[string]map[string]reflect.Value)
 	dtest := make(map[string]reflect.Value)
 
-	dtest[testpb.Test_NONE.String()] = reflect.ValueOf(testpb.Test_NONE)
+	dtest[testpb.Test_UNKNOWN.String()] = reflect.ValueOf(testpb.Test_UNKNOWN)
 	dtest[testpb.Test_LOW.String()] = reflect.ValueOf(testpb.Test_LOW)
 	dtest[testpb.Test_MED.String()] = reflect.ValueOf(testpb.Test_MED)
 	dtest[testpb.Test_HIGH.String()] = reflect.ValueOf(testpb.Test_HIGH)

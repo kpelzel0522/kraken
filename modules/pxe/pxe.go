@@ -54,6 +54,12 @@ var muts = map[string]pxmut{
 		reqs:    reqs,
 		timeout: "10s",
 	},
+	// "WAITtoINIT": {
+	// 	f:       pxepb.PXE_WAIT,
+	// 	t:       pxepb.PXE_INIT,
+	// 	reqs:    reqs,
+	// 	timeout: "30s",
+	// },
 	"INITtoCOMP": {
 		f: pxepb.PXE_INIT,
 		t: pxepb.PXE_COMP,
@@ -64,6 +70,24 @@ var muts = map[string]pxmut{
 		timeout: "180s",
 	},
 }
+
+// mutations["WAITtoINIT"] = core.NewStateMutation(
+// 	map[string][2]reflect.Value{
+// 		PXEStateURL: {
+// 			reflect.ValueOf(pxepb.PXE_WAIT),
+// 			reflect.ValueOf(pxepb.PXE_INIT),
+// 		},
+// 		"/RunState": {
+// 			reflect.ValueOf(cpb.Node_UNKNOWN),
+// 			reflect.ValueOf(cpb.Node_INIT),
+// 		},
+// 	},
+// 	reqs,
+// 	excs,
+// 	lib.StateMutationContext_CHILD,
+// 	time.Second*30,
+// 	[3]string{module.Name(), "/PhysState", "PHYS_HANG"},
+// )
 
 // modify these if you want different requires for mutations
 var reqs = map[string]reflect.Value{

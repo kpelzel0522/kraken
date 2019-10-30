@@ -163,7 +163,7 @@ func init() {
 			excs,
 			lib.StateMutationContext_CHILD,
 			dur,
-			[3]string{module.Name(), "/PhysState", "PHYS_HANG"},
+			[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
 		)
 	}
 
