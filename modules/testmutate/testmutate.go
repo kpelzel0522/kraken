@@ -100,28 +100,28 @@ type mut struct {
 // 	},
 // }
 
-var tmuts = map[string]tmut{
-	"T_UNKNOWNtoT_LOW": {
-		f: tpb.Test_UNKNOWN,
-		t: tpb.Test_LOW,
-		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-		},
-		timeout: "60s",
-	},
-	"T_UNKNOWNtoT_HIGH": {
-		f: tpb.Test_UNKNOWN,
-		t: tpb.Test_HIGH,
-		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-		},
-		timeout: "60s",
-	},
-}
+// var tmuts = map[string]tmut{
+// 	"T_UNKNOWNtoT_LOW": {
+// 		f: tpb.Test_UNKNOWN,
+// 		t: tpb.Test_LOW,
+// 		reqs: map[string]reflect.Value{
+// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+// 		},
+// 		timeout: "60s",
+// 	},
+// 	"T_UNKNOWNtoT_HIGH": {
+// 		f: tpb.Test_UNKNOWN,
+// 		t: tpb.Test_HIGH,
+// 		reqs: map[string]reflect.Value{
+// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+// 		},
+// 		timeout: "60s",
+// 	},
+// }
 
 var tsmuts = map[string]tsmut{
 	"NONEtoHIGH": {
@@ -285,22 +285,22 @@ func init() {
 		)
 	}
 
-	for name, m := range tmuts {
-		dur, _ := time.ParseDuration(m.timeout)
-		mutations[name] = core.NewStateMutation(
-			map[string][2]reflect.Value{
-				TempStateURL: {
-					reflect.ValueOf(m.f),
-					reflect.ValueOf(m.t),
-				},
-			},
-			m.reqs,
-			m.excs,
-			lib.StateMutationContext_CHILD,
-			dur,
-			[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
-		)
-	}
+	// for name, m := range tmuts {
+	// 	dur, _ := time.ParseDuration(m.timeout)
+	// 	mutations[name] = core.NewStateMutation(
+	// 		map[string][2]reflect.Value{
+	// 			TempStateURL: {
+	// 				reflect.ValueOf(m.f),
+	// 				reflect.ValueOf(m.t),
+	// 			},
+	// 		},
+	// 		m.reqs,
+	// 		m.excs,
+	// 		lib.StateMutationContext_CHILD,
+	// 		dur,
+	// 		[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
+	// 	)
+	// }
 
 	si := core.NewServiceInstance("testmutate", module.Name(), module.Entry, nil)
 	// Register it all
