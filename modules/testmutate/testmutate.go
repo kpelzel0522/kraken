@@ -111,16 +111,16 @@ var tmuts = map[string]tmut{
 	// 	},
 	// 	timeout: "60s",
 	// },
-	// "CRITICALtoNORMAL": {
-	// 	f: tpb.Test_CRITICAL,
-	// 	t: tpb.Test_NORMAL,
-	// 	reqs: map[string]reflect.Value{
-	// 		"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-	// 		"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-	// 		// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-	// 	},
-	// 	timeout: "60s",
-	// },
+	"CRITICALtoWARNING": {
+		f: tpb.Test_CRITICAL,
+		t: tpb.Test_WARNING,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+		},
+		timeout: "60s",
+	},
 	// "UNKNOWNtoNORMAL": {
 	// 	f: tpb.Test_UNKNOWN,
 	// 	t: tpb.Test_NORMAL,
