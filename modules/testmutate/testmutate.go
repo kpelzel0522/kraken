@@ -52,9 +52,9 @@ type tmut struct {
 }
 
 var muts = map[string]tmut{
-	"NONEtoLOW": {
+	"NONEtoHIGH": {
 		f: tspb.TestScaling_NONE,
-		t: tspb.TestScaling_LOW,
+		t: tspb.TestScaling_HIGH,
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
