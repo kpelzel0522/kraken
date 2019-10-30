@@ -286,34 +286,17 @@ func init() {
 	discovers[ModuleStateURL] = map[string]reflect.Value{
 		"RUN": reflect.ValueOf(cpb.ServiceInstance_RUN)}
 
-	// for name, m := range muts {
-	// 	dur, _ := time.ParseDuration(m.timeout)
-	// 	mutations[name] = core.NewStateMutation(
-	// 		map[string][2]reflect.Value{
-	// 			ScalingStateURL: {
-	// 				reflect.ValueOf(m.tsf),
-	// 				reflect.ValueOf(m.tst),
-	// 			},
-	// 			TempStateURL: {
-	// 				reflect.ValueOf(m.tf),
-	// 				reflect.ValueOf(m.tt),
-	// 			},
-	// 		},
-	// 		m.reqs,
-	// 		m.excs,
-	// 		lib.StateMutationContext_CHILD,
-	// 		dur,
-	// 		[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
-	// 	)
-	// }
-
-	for name, m := range tsmuts {
+	for name, m := range muts {
 		dur, _ := time.ParseDuration(m.timeout)
 		mutations[name] = core.NewStateMutation(
 			map[string][2]reflect.Value{
 				ScalingStateURL: {
-					reflect.ValueOf(m.f),
-					reflect.ValueOf(m.t),
+					reflect.ValueOf(m.tsf),
+					reflect.ValueOf(m.tst),
+				},
+				TempStateURL: {
+					reflect.ValueOf(m.tf),
+					reflect.ValueOf(m.tt),
 				},
 			},
 			m.reqs,
@@ -323,6 +306,23 @@ func init() {
 			[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
 		)
 	}
+
+	// for name, m := range tsmuts {
+	// 	dur, _ := time.ParseDuration(m.timeout)
+	// 	mutations[name] = core.NewStateMutation(
+	// 		map[string][2]reflect.Value{
+	// 			ScalingStateURL: {
+	// 				reflect.ValueOf(m.f),
+	// 				reflect.ValueOf(m.t),
+	// 			},
+	// 		},
+	// 		m.reqs,
+	// 		m.excs,
+	// 		lib.StateMutationContext_CHILD,
+	// 		dur,
+	// 		[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
+	// 	)
+	// }
 
 	for name, m := range tmuts {
 		dur, _ := time.ParseDuration(m.timeout)
