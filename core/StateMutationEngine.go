@@ -611,6 +611,8 @@ func (sme *StateMutationEngine) buildGraph(root *mutationNode, seenNode map[lib.
 	nodes = append(nodes, root)
 	edges = []*mutationEdge{}
 
+	sme.log.Logf(lib.LLDEBUG, "building graph root. spec: %+v in: %+v out: %+v", root.spec, root.in, root.out)
+
 	// There are two thing that can make a node equal:
 	// 1) we have seen this exact node spec...
 	for sp, n := range seenNode {
