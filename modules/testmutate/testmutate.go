@@ -107,7 +107,7 @@ var tmuts = map[string]tmut{
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			TempStateURL: reflect.ValueOf(tpb.Test_WARNING),
+			// TempStateURL: reflect.ValueOf(tpb.Test_WARNING),
 		},
 		timeout: "60s",
 	},
@@ -117,7 +117,7 @@ var tmuts = map[string]tmut{
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			TempStateURL: reflect.ValueOf(tpb.Test_CRITICAL),
+			// TempStateURL: reflect.ValueOf(tpb.Test_CRITICAL),
 		},
 		timeout: "60s",
 	},
@@ -127,7 +127,7 @@ var tmuts = map[string]tmut{
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			TempStateURL: reflect.ValueOf(tpb.Test_UNKNOWN),
+			// TempStateURL: reflect.ValueOf(tpb.Test_UNKNOWN),
 		},
 		timeout: "60s",
 	},
@@ -305,11 +305,18 @@ func init() {
 	discovers := make(map[string]map[string]reflect.Value)
 	dtestm := make(map[string]reflect.Value)
 
-	dtestm[tspb.TestScaling_NONE.String()] = reflect.ValueOf(tspb.TestScaling_NONE)
-	dtestm[tspb.TestScaling_LOW.String()] = reflect.ValueOf(tspb.TestScaling_LOW)
-	dtestm[tspb.TestScaling_HIGH.String()] = reflect.ValueOf(tspb.TestScaling_HIGH)
+	dtestm[tpb.Test_NORMAL.String()] = reflect.ValueOf(tpb.Test_NORMAL)
+	dtestm[tpb.Test_WARNING.String()] = reflect.ValueOf(tpb.Test_WARNING)
+	dtestm[tpb.Test_CRITICAL.String()] = reflect.ValueOf(tpb.Test_CRITICAL)
+	dtestm[tpb.Test_UNKNOWN.String()] = reflect.ValueOf(tpb.Test_UNKNOWN)
 
-	discovers[ScalingStateURL] = dtestm
+	discovers["type.googleapis.com/proto.Test/State"] = dtestm
+
+	// dtestm[tspb.TestScaling_NONE.String()] = reflect.ValueOf(tspb.TestScaling_NONE)
+	// dtestm[tspb.TestScaling_LOW.String()] = reflect.ValueOf(tspb.TestScaling_LOW)
+	// dtestm[tspb.TestScaling_HIGH.String()] = reflect.ValueOf(tspb.TestScaling_HIGH)
+
+	// discovers[ScalingStateURL] = dtestm
 
 	discovers[ModuleStateURL] = map[string]reflect.Value{
 		"RUN": reflect.ValueOf(cpb.ServiceInstance_RUN)}
