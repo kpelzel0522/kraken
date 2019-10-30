@@ -174,7 +174,7 @@ func init() {
 				},
 			},
 			muts[m].reqs,
-			excs,
+			muts[m].excs,
 			lib.StateMutationContext_CHILD,
 			dur,
 			[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
