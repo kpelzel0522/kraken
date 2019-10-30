@@ -101,9 +101,9 @@ type mut struct {
 // }
 
 var tmuts = map[string]tmut{
-	"T_UNKNOWNtoT_LOW": {
-		f: tpb.Test_UNKNOWN,
-		t: tpb.Test_LOW,
+	"WARNINGtoNORMAL": {
+		f: tpb.Test_WARNING,
+		t: tpb.Test_NORMAL,
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
@@ -111,9 +111,19 @@ var tmuts = map[string]tmut{
 		},
 		timeout: "60s",
 	},
-	"T_UNKNOWNtoT_HIGH": {
+	"CRITICALtoNORMAL": {
+		f: tpb.Test_CRITICAL,
+		t: tpb.Test_NORMAL,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+		},
+		timeout: "60s",
+	},
+	"UNKNOWNtoNORMAL": {
 		f: tpb.Test_UNKNOWN,
-		t: tpb.Test_HIGH,
+		t: tpb.Test_NORMAL,
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
@@ -206,8 +216,8 @@ func (t *TestMutate) handleMutation(m *core.MutationEvent) {
 	switch m.Type {
 	case core.MutationEvent_MUTATE:
 		switch m.Mutation[1] {
-		case "T_UNKNOWNtoT_LOW": // starting a new mutation, register the node
-			t.api.Logf(lib.LLDEBUG, "Got none -> high. sending high: %+v", m)
+		case "WARNINGtoNORMAL": // starting a new mutation, register the node
+			t.api.Logf(lib.LLDEBUG, "Got warning -> normal. sending normal: %+v", m)
 			url := lib.NodeURLJoin(m.NodeCfg.ID().String(), TempStateURL)
 			ev := core.NewEvent(
 				lib.Event_DISCOVERY,
@@ -219,8 +229,21 @@ func (t *TestMutate) handleMutation(m *core.MutationEvent) {
 				},
 			)
 			t.dchan <- ev
-		case "T_UNKNOWNtoT_HIGH": // starting a new mutation, register the node
-			t.api.Logf(lib.LLDEBUG, "Got none -> low. sending low: %+v", m)
+		case "CRITICALtoNORMAL": // starting a new mutation, register the node
+			t.api.Logf(lib.LLDEBUG, "Got critical -> normal. sending normal: %+v", m)
+			url := lib.NodeURLJoin(m.NodeCfg.ID().String(), TempStateURL)
+			ev := core.NewEvent(
+				lib.Event_DISCOVERY,
+				url,
+				&core.DiscoveryEvent{
+					Module:  t.Name(),
+					URL:     url,
+					ValueID: tpb.Test_UNKNOWN.String(),
+				},
+			)
+			t.dchan <- ev
+		case "UNKNOWNtoNORMAL": // starting a new mutation, register the node
+			t.api.Logf(lib.LLDEBUG, "Got unknown -> normal. sending normal: %+v", m)
 			url := lib.NodeURLJoin(m.NodeCfg.ID().String(), TempStateURL)
 			ev := core.NewEvent(
 				lib.Event_DISCOVERY,

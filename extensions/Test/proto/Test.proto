@@ -12,9 +12,10 @@
 
 message Test {
     enum Test {
-        UNKNOWN = 0; 
-        LOW = 1;    // Low
-        HIGH = 3;   // High
+        NORMAL = 0; 
+        WARNING = 1;
+        CRITICAL = 2;
+        UNKNOWN = 3;
     }
     Test state = 1;
 }

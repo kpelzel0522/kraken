@@ -218,9 +218,10 @@ func init() {
 	discovers := make(map[string]map[string]reflect.Value)
 	dtest := make(map[string]reflect.Value)
 
+	dtest[testpb.Test_NORMAL.String()] = reflect.ValueOf(testpb.Test_NORMAL)
+	dtest[testpb.Test_WARNING.String()] = reflect.ValueOf(testpb.Test_WARNING)
+	dtest[testpb.Test_CRITICAL.String()] = reflect.ValueOf(testpb.Test_CRITICAL)
 	dtest[testpb.Test_UNKNOWN.String()] = reflect.ValueOf(testpb.Test_UNKNOWN)
-	dtest[testpb.Test_LOW.String()] = reflect.ValueOf(testpb.Test_LOW)
-	dtest[testpb.Test_HIGH.String()] = reflect.ValueOf(testpb.Test_HIGH)
 
 	discovers["type.googleapis.com/proto.Test/State"] = dtest
 
