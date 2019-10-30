@@ -64,8 +64,9 @@ var tmuts = map[string]tmut{
 		f: tpb.Test_UNKNOWN,
 		t: tpb.Test_LOW,
 		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			"/PhysState":    reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":     reflect.ValueOf(cpb.Node_SYNC),
+			ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
 		},
 		timeout: "60s",
 	},
@@ -73,8 +74,9 @@ var tmuts = map[string]tmut{
 		f: tpb.Test_UNKNOWN,
 		t: tpb.Test_LOW,
 		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			"/PhysState":    reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":     reflect.ValueOf(cpb.Node_SYNC),
+			ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
 		},
 		timeout: "60s",
 	},
