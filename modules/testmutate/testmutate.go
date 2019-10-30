@@ -142,7 +142,6 @@ func init() {
 	dtestm := make(map[string]reflect.Value)
 
 	dtestm[tspb.TestScaling_NONE.String()] = reflect.ValueOf(tspb.TestScaling_NONE)
-	dtestm[tspb.TestScaling_WAIT.String()] = reflect.ValueOf(tspb.TestScaling_WAIT)
 	dtestm[tspb.TestScaling_LOW.String()] = reflect.ValueOf(tspb.TestScaling_LOW)
 	dtestm[tspb.TestScaling_HIGH.String()] = reflect.ValueOf(tspb.TestScaling_HIGH)
 
