@@ -44,7 +44,7 @@ type TestMutate struct {
 }
 
 type tsmut struct {
-	f       tspb.TestScaling_Scaling
+	f       tpb.Test_Test
 	t       tspb.TestScaling_Scaling
 	reqs    map[string]reflect.Value
 	excs    map[string]reflect.Value
@@ -73,32 +73,32 @@ type mut struct {
 	timeout string
 }
 
-// var muts = map[string]mut{
-// 	"UNKNOWNtoLOW": {
-// 		tf:  tpb.Test_UNKNOWN,
-// 		tt:  tpb.Test_LOW,
-// 		tsf: tspb.TestScaling_NONE,
-// 		tst: tspb.TestScaling_HIGH,
-// 		reqs: map[string]reflect.Value{
-// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-// 		},
-// 		timeout: "60s",
-// 	},
-// 	"UNKNOWNtoHIGH": {
-// 		tf:  tpb.Test_UNKNOWN,
-// 		tt:  tpb.Test_HIGH,
-// 		tsf: tspb.TestScaling_NONE,
-// 		tst: tspb.TestScaling_LOW,
-// 		reqs: map[string]reflect.Value{
-// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-// 		},
-// 		timeout: "60s",
-// 	},
-// }
+var muts = map[string]mut{
+	"LOW_TEMPtoHIGH_PERF": {
+		tf:  tpb.Test_UNKNOWN,
+		tt:  tpb.Test_LOW,
+		tsf: tspb.TestScaling_NONE,
+		tst: tspb.TestScaling_HIGH,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+		},
+		timeout: "60s",
+	},
+	"HIGH_TEMPtoLOW_PERF": {
+		tf:  tpb.Test_UNKNOWN,
+		tt:  tpb.Test_HIGH,
+		tsf: tspb.TestScaling_NONE,
+		tst: tspb.TestScaling_LOW,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+		},
+		timeout: "60s",
+	},
+}
 
 var tmuts = map[string]tmut{
 	"T_UNKNOWNtoT_LOW": {
@@ -123,20 +123,45 @@ var tmuts = map[string]tmut{
 	},
 }
 
+// var tsmuts = map[string]tsmut{
+// 	"NONEtoHIGH": {
+// 		f: tspb.TestScaling_NONE,
+// 		t: tspb.TestScaling_HIGH,
+// 		reqs: map[string]reflect.Value{
+// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+// 			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
+// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_HIGH),
+// 		},
+// 		timeout: "60s",
+// 	},
+// 	"HIGHtoLOW": {
+// 		f: tspb.TestScaling_HIGH,
+// 		t: tspb.TestScaling_LOW,
+// 		reqs: map[string]reflect.Value{
+// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+// 			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
+// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_HIGH),
+// 		},
+// 		timeout: "60s",
+// 	},
+// 	"LOWtoHIGH": {
+// 		f: tspb.TestScaling_LOW,
+// 		t: tspb.TestScaling_HIGH,
+// 		reqs: map[string]reflect.Value{
+// 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+// 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+// 			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
+// 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_LOW),
+// 		},
+// 		timeout: "60s",
+// 	},
+// }
+
 var tsmuts = map[string]tsmut{
-	"NONEtoHIGH": {
-		f: tspb.TestScaling_NONE,
-		t: tspb.TestScaling_HIGH,
-		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_HIGH),
-		},
-		timeout: "60s",
-	},
-	"HIGHtoLOW": {
-		f: tspb.TestScaling_HIGH,
+	"LOW_TEMPtoHIGH_PERF": {
+		f: tpb.Test_LOW,
 		t: tspb.TestScaling_LOW,
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
@@ -146,8 +171,8 @@ var tsmuts = map[string]tsmut{
 		},
 		timeout: "60s",
 	},
-	"LOWtoHIGH": {
-		f: tspb.TestScaling_LOW,
+	"HIGH_TEMPtoLOW_PERF": {
+		f: tpb.Test_HIGH,
 		t: tspb.TestScaling_HIGH,
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
