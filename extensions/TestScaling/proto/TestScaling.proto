@@ -13,7 +13,6 @@
 message TestScaling {
     enum Scaling {
         NONE = 0;
-        WAIT = 1;
         LOW = 2;
         HIGH = 3;
     }
