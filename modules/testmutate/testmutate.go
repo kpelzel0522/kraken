@@ -111,26 +111,26 @@ var tmuts = map[string]tmut{
 		},
 		timeout: "60s",
 	},
-	"CRITICALtoWARNING": {
+	"CRITICALtoNORMAL": {
 		f: tpb.Test_CRITICAL,
-		t: tpb.Test_WARNING,
+		t: tpb.Test_NORMAL,
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+			TempStateURL: reflect.ValueOf(tpb.Test_CRITICAL),
 		},
 		timeout: "60s",
 	},
-	// "UNKNOWNtoNORMAL": {
-	// 	f: tpb.Test_UNKNOWN,
-	// 	t: tpb.Test_NORMAL,
-	// 	reqs: map[string]reflect.Value{
-	// 		"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-	// 		"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-	// 		// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-	// 	},
-	// 	timeout: "60s",
-	// },
+	"UNKNOWNtoNORMAL": {
+		f: tpb.Test_UNKNOWN,
+		t: tpb.Test_NORMAL,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			TempStateURL: reflect.ValueOf(tpb.Test_UNKNOWN),
+		},
+		timeout: "60s",
+	},
 	"NORMALtoWARNING": {
 		f: tpb.Test_NORMAL,
 		t: tpb.Test_WARNING,
@@ -141,16 +141,16 @@ var tmuts = map[string]tmut{
 		},
 		timeout: "60s",
 	},
-	// "NORMALtoCRITICAL": {
-	// 	f: tpb.Test_NORMAL,
-	// 	t: tpb.Test_CRITICAL,
-	// 	reqs: map[string]reflect.Value{
-	// 		"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-	// 		"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-	// 		// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-	// 	},
-	// 	timeout: "60s",
-	// },
+	"NORMALtoCRITICAL": {
+		f: tpb.Test_NORMAL,
+		t: tpb.Test_CRITICAL,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+		},
+		timeout: "60s",
+	},
 	"NORMALtoUNKNOWN": {
 		f: tpb.Test_NORMAL,
 		t: tpb.Test_UNKNOWN,
