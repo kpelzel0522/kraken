@@ -1090,12 +1090,17 @@ func (sme *StateMutationEngine) updateMutation(node string, url string, val refl
 	}
 
 	// we still query this to make sure it's the Dsc value
-	var e error
-	val, e = sme.query.GetValueDsc(lib.NodeURLJoin(node, url))
+	qVal, e := sme.query.GetValueDsc(lib.NodeURLJoin(node, url))
 	if e != nil {
 		sme.Log(ERROR, e.Error())
 		return
 	}
+	if qVal.Interface() != val.Interface() {
+		sme.Log(ERROR, "state change event value is not the same as the current nodes dsc value")
+	}
+	val = qVal
+
+	sme.Logf(ERROR, "current mutation: %v. length of chain: %v", m.cur, len(m.chain))
 
 	// this is a discovery on a completed chain
 	if m.cur >= len(m.chain) {
