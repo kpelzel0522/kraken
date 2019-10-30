@@ -12,9 +12,14 @@ extensions:
   - github.com/hpc/kraken/extensions/IPv4
   - github.com/hpc/kraken/extensions/VBox
   - github.com/hpc/kraken/extensions/PXE
+  - github.com/hpc/kraken/extensions/Test
+  - github.com/hpc/kraken/extensions/TestScaling
+
 
 # included modules
 modules:
   - github.com/hpc/kraken/modules/restapi
   - github.com/hpc/kraken/modules/vboxmanage
   - github.com/hpc/kraken/modules/pxe
+  - github.com/hpc/kraken/modules/test
+  - github.com/hpc/kraken/modules/testmutate
