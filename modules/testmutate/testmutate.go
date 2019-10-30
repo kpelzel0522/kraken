@@ -72,7 +72,7 @@ var tmuts = map[string]tmut{
 	},
 	"T_UNKNOWNtoT_HIGH": {
 		f: tpb.Test_UNKNOWN,
-		t: tpb.Test_LOW,
+		t: tpb.Test_HIGH,
 		reqs: map[string]reflect.Value{
 			"/PhysState":    reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":     reflect.ValueOf(cpb.Node_SYNC),
