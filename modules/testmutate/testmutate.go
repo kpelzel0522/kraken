@@ -102,65 +102,65 @@ type mut struct {
 
 var tmuts = map[string]tmut{
 	"WARNINGtoNORMAL": {
-		f: tpb.Test_WARNING,
-		t: tpb.Test_NORMAL,
+		f:    tpb.Test_WARNING,
+		t:    tpb.Test_NORMAL,
 		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			// "/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			// "/RunState":  reflect.ValueOf(cpb.Node_SYNC),
 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
 		},
 		timeout: "60s",
 	},
 	"CRITICALtoNORMAL": {
-		f: tpb.Test_CRITICAL,
-		t: tpb.Test_NORMAL,
+		f:    tpb.Test_CRITICAL,
+		t:    tpb.Test_NORMAL,
 		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			// "/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			// "/RunState":  reflect.ValueOf(cpb.Node_SYNC),
 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
 		},
 		timeout: "60s",
 	},
 	"UNKNOWNtoNORMAL": {
-		f: tpb.Test_UNKNOWN,
-		t: tpb.Test_NORMAL,
+		f:    tpb.Test_UNKNOWN,
+		t:    tpb.Test_NORMAL,
 		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			// "/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			// "/RunState":  reflect.ValueOf(cpb.Node_SYNC),
 			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
 		},
 		timeout: "60s",
 	},
-	"NORMALtoWARNING": {
-		f: tpb.Test_NORMAL,
-		t: tpb.Test_WARNING,
-		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-		},
-		timeout: "60s",
-	},
-	"NORMALtoCRITICAL": {
-		f: tpb.Test_NORMAL,
-		t: tpb.Test_CRITICAL,
-		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-		},
-		timeout: "60s",
-	},
-	"NORMALtoUNKNOWN": {
-		f: tpb.Test_NORMAL,
-		t: tpb.Test_UNKNOWN,
-		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
-		},
-		timeout: "60s",
-	},
+	// "NORMALtoWARNING": {
+	// 	f: tpb.Test_NORMAL,
+	// 	t: tpb.Test_WARNING,
+	// 	reqs: map[string]reflect.Value{
+	// 		"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+	// 		"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+	// 		// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+	// 	},
+	// 	timeout: "60s",
+	// },
+	// "NORMALtoCRITICAL": {
+	// 	f: tpb.Test_NORMAL,
+	// 	t: tpb.Test_CRITICAL,
+	// 	reqs: map[string]reflect.Value{
+	// 		"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+	// 		"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+	// 		// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+	// 	},
+	// 	timeout: "60s",
+	// },
+	// "NORMALtoUNKNOWN": {
+	// 	f: tpb.Test_NORMAL,
+	// 	t: tpb.Test_UNKNOWN,
+	// 	reqs: map[string]reflect.Value{
+	// 		"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+	// 		"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+	// 		// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_NONE),
+	// 	},
+	// 	timeout: "60s",
+	// },
 }
 
 // var tsmuts = map[string]tsmut{
