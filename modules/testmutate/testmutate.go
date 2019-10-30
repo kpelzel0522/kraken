@@ -43,7 +43,7 @@ type TestMutate struct {
 	mchan <-chan lib.Event
 }
 
-type tmut struct {
+type tsmut struct {
 	f       tspb.TestScaling_Scaling
 	t       tspb.TestScaling_Scaling
 	reqs    map[string]reflect.Value
@@ -51,13 +51,43 @@ type tmut struct {
 	timeout string
 }
 
-var muts = map[string]tmut{
+type tmut struct {
+	f       tpb.Test_Test
+	t       tpb.Test_Test
+	reqs    map[string]reflect.Value
+	excs    map[string]reflect.Value
+	timeout string
+}
+
+var tmuts = map[string]tmut{
+	"T_UNKNOWNtoT_LOW": {
+		f: tpb.Test_UNKNOWN,
+		t: tpb.Test_LOW,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+		},
+		timeout: "60s",
+	},
+	"T_UNKNOWNtoT_HIGH": {
+		f: tpb.Test_UNKNOWN,
+		t: tpb.Test_LOW,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+		},
+		timeout: "60s",
+	},
+}
+
+var tsmuts = map[string]tsmut{
 	"NONEtoLOW": {
 		f: tspb.TestScaling_NONE,
 		t: tspb.TestScaling_LOW,
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
 		},
 		timeout: "60s",
 	},
@@ -67,6 +97,7 @@ var muts = map[string]tmut{
 		reqs: map[string]reflect.Value{
 			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
 			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
 		},
 		timeout: "60s",
 	},
@@ -160,17 +191,34 @@ func init() {
 	discovers[ModuleStateURL] = map[string]reflect.Value{
 		"RUN": reflect.ValueOf(cpb.ServiceInstance_RUN)}
 
-	for m := range muts {
-		dur, _ := time.ParseDuration(muts[m].timeout)
-		mutations[m] = core.NewStateMutation(
+	for name, m := range tsmuts {
+		dur, _ := time.ParseDuration(m.timeout)
+		mutations[name] = core.NewStateMutation(
 			map[string][2]reflect.Value{
 				ScalingStateURL: {
-					reflect.ValueOf(muts[m].f),
-					reflect.ValueOf(muts[m].t),
+					reflect.ValueOf(m.f),
+					reflect.ValueOf(m.t),
 				},
 			},
-			muts[m].reqs,
-			excs,
+			m.reqs,
+			m.excs,
+			lib.StateMutationContext_CHILD,
+			dur,
+			[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
+		)
+	}
+
+	for name, m := range tmuts {
+		dur, _ := time.ParseDuration(m.timeout)
+		mutations[name] = core.NewStateMutation(
+			map[string][2]reflect.Value{
+				ScalingStateURL: {
+					reflect.ValueOf(m.f),
+					reflect.ValueOf(m.t),
+				},
+			},
+			m.reqs,
+			m.excs,
 			lib.StateMutationContext_CHILD,
 			dur,
 			[3]string{module.Name(), ScalingStateURL, tspb.TestScaling_NONE.String()},
