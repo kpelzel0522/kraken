@@ -60,6 +60,15 @@ var muts = map[string]tmut{
 		},
 		timeout: "60s",
 	},
+	"NONEtoLOW": {
+		f: tspb.TestScaling_NONE,
+		t: tspb.TestScaling_LOW,
+		reqs: map[string]reflect.Value{
+			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
+			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
+		},
+		timeout: "60s",
+	},
 	"HIGHtoLOW": {
 		f: tspb.TestScaling_HIGH,
 		t: tspb.TestScaling_LOW,
