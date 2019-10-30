@@ -159,31 +159,6 @@ var tmuts = map[string]tmut{
 // 	},
 // }
 
-var tsmuts = map[string]tsmut{
-	"LOW_TEMPtoHIGH_PERF": {
-		f: tpb.Test_LOW,
-		t: tspb.TestScaling_LOW,
-		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			TempStateURL: reflect.ValueOf(tpb.Test_HIGH),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_HIGH),
-		},
-		timeout: "60s",
-	},
-	"HIGH_TEMPtoLOW_PERF": {
-		f: tpb.Test_HIGH,
-		t: tspb.TestScaling_HIGH,
-		reqs: map[string]reflect.Value{
-			"/PhysState": reflect.ValueOf(cpb.Node_POWER_ON),
-			"/RunState":  reflect.ValueOf(cpb.Node_SYNC),
-			TempStateURL: reflect.ValueOf(tpb.Test_LOW),
-			// ScalingStateURL: reflect.ValueOf(tspb.TestScaling_LOW),
-		},
-		timeout: "60s",
-	},
-}
-
 var excs = map[string]reflect.Value{}
 
 // Name returns the FQDN of the module
@@ -231,7 +206,7 @@ func (t *TestMutate) handleMutation(m *core.MutationEvent) {
 	switch m.Type {
 	case core.MutationEvent_MUTATE:
 		switch m.Mutation[1] {
-		case "NONEtoHIGH": // starting a new mutation, register the node
+		case "LOW_TEMPtoHIGH_PERF": // starting a new mutation, register the node
 			t.api.Logf(lib.LLDEBUG, "Got none -> high. sending high: %+v", m)
 			url := lib.NodeURLJoin(m.NodeCfg.ID().String(), ScalingStateURL)
 			ev := core.NewEvent(
@@ -244,7 +219,7 @@ func (t *TestMutate) handleMutation(m *core.MutationEvent) {
 				},
 			)
 			t.dchan <- ev
-		case "NONEtoLOW": // starting a new mutation, register the node
+		case "HIGH_TEMPtoLOW_PERF": // starting a new mutation, register the node
 			t.api.Logf(lib.LLDEBUG, "Got none -> low. sending low: %+v", m)
 			url := lib.NodeURLJoin(m.NodeCfg.ID().String(), ScalingStateURL)
 			ev := core.NewEvent(
