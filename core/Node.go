@@ -362,6 +362,7 @@ func (n *Node) HasService(id string) bool {
 // prefix allows a string prefix to be prepended to diffs
 // note: we have to be especially careful about locking in this function
 func (n *Node) Diff(node lib.Node, prefix string) (r []string, e error) {
+	fmt.Printf("Starting diff. Prefix: %v\n", prefix)
 	if reflect.TypeOf(n) != reflect.TypeOf(node) {
 		e = fmt.Errorf("cannot diff nodes of different types")
 		return
@@ -386,10 +387,10 @@ func (n *Node) Diff(node lib.Node, prefix string) (r []string, e error) {
 	for _, u := range eright {
 		nodeExt, ok := m.exts[u]
 		if !ok {
-			r = append(r, fmt.Sprintf("%v%v", prefix, u))
+			r = append(r, lib.URLPush(prefix, u))
 			continue
 		}
-		d, _ := lib.MessageDiff(n.exts[u], nodeExt, fmt.Sprintf("%v%v", prefix, u))
+		d, _ := lib.MessageDiff(n.exts[u], nodeExt, lib.URLPush(prefix, u))
 		r = append(r, d...)
 		for i := range eleft {
 			if eleft[i] == u {
@@ -399,7 +400,7 @@ func (n *Node) Diff(node lib.Node, prefix string) (r []string, e error) {
 		}
 	}
 	for _, u := range eleft {
-		r = append(r, fmt.Sprintf("%v%v", prefix, u))
+		r = append(r, lib.URLPush(prefix, u))
 	}
 
 	// handle services
