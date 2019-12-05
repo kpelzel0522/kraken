@@ -362,7 +362,6 @@ func (n *Node) HasService(id string) bool {
 // prefix allows a string prefix to be prepended to diffs
 // note: we have to be especially careful about locking in this function
 func (n *Node) Diff(node lib.Node, prefix string) (r []string, e error) {
-	fmt.Printf("Starting diff. Prefix: %v\n", prefix)
 	if reflect.TypeOf(n) != reflect.TypeOf(node) {
 		e = fmt.Errorf("cannot diff nodes of different types")
 		return

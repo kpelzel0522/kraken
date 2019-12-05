@@ -426,8 +426,10 @@ func (sme *StateMutationEngine) Run() {
 			_, url := lib.NodeURLSplit(v.URL())
 			sme.graphMutex.RLock()
 			defer sme.graphMutex.RUnlock()
-			for m := range sme.mutators { // NOTE: doesn't fix beginning slashes, etc
+			for m := range sme.mutators {
 				if url == m {
+					return true
+				} else if lib.URLPush("", url) == m {
 					return true
 				}
 			}
