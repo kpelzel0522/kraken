@@ -427,10 +427,18 @@ func (sme *StateMutationEngine) Run() {
 			sme.graphMutex.RLock()
 			defer sme.graphMutex.RUnlock()
 			for m := range sme.mutators {
+				sme.Logf(lib.LLDEBUG, "url: %v vs %v", url, m)
 				if url == m {
+					sme.Logf(lib.LLDEBUG, "url success: %v vs %v", url, m)
 					return true
-				} else if lib.URLPush("", url) == m {
-					return true
+				}
+				// Check if it begins with a slash
+				us := lib.URLToSlice(url)
+				if us[0] == "" {
+					if lib.SliceToURL(us[1:]) == m {
+						sme.Logf(lib.LLDEBUG, "url success: %v vs %v", lib.SliceToURL(us[1:]), m)
+						return true
+					}
 				}
 			}
 			if url == "" { // this should mean we got CREATE/DELETE
