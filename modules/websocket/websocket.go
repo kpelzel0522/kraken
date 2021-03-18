@@ -436,7 +436,7 @@ func (w *WebSocket) serveWs(hub *Hub, wrt http.ResponseWriter, req *http.Request
 		return
 	}
 	// Creating client with buffered payload channel set to 50. This might have to be increased if we have a lot of nodes
-	client := &Client{hub: hub, conn: conn, send: make(chan *Payload, 50), w: w, subs: make(map[types.EventType]bool)}
+	client := &Client{hub: hub, conn: conn, send: make(chan *Payload, 500), w: w, subs: make(map[types.EventType]bool)}
 	w.api.Logf(types.LLDDDEBUG, "websocket added new client: %p\n", client)
 	client.hub.register <- client
 
